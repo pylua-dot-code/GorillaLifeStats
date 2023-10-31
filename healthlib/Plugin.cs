@@ -5,15 +5,12 @@ using Utilla;
 
 namespace healthlib
 {
-    /// <summary>
-    /// This is your mod's main class.
-    /// </summary>
-
     [ModdedGamemode]
     [BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
+        public int Health;
         bool inRoom;
 
         void Start()
@@ -23,6 +20,7 @@ namespace healthlib
 
         void OnEnable()
         {
+            Debug.Log("HealthLib: Thanks for using HealthLib - pylua.code");
             HarmonyPatches.ApplyHarmonyPatches();
         }
 
