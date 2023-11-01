@@ -1,17 +1,24 @@
 ﻿using BepInEx;
+using GorillaNetworking;
+using Photon.Pun;
 using System;
+using System.IO;
 using UnityEngine;
 using Utilla;
+using HoneyLib;
+using HoneyLib.Events;
 
 namespace healthlib
 {
-    [ModdedGamemode]
     [BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
-        public int Health;
+        public int Health = 100;
+
         bool inRoom;
+
+        bool verboseMode;
 
         void Start()
         {
@@ -20,8 +27,15 @@ namespace healthlib
 
         void OnEnable()
         {
-            Debug.Log("HealthLib: Thanks for using HealthLib - pylua.code");
             HarmonyPatches.ApplyHarmonyPatches();
+        }
+
+        void setVerbose(bool verbose)
+        {
+            if (verbose)
+            {
+                verboseMode = true;
+            }
         }
 
         void OnDisable()
@@ -31,25 +45,60 @@ namespace healthlib
 
         void OnGameInitialized(object sender, EventArgs e)
         {
-
+            Debug.Log("HealthLib: Credits | Thanks for using HealthLib - pylua.code");
         }
-
+        void OnTag(object sender, InfectionTagEventArgs e)
+        {
+            if (e.taggedPlayer.IsLocal && e.taggingPlayer != null)
+            {
+                removeHealth(5);
+            }
+        }
         void Update()
         {
+            if (Health <= 0)
+            {
+                PhotonNetwork.Disconnect();
+                Debug.Log("HealthLib: Action | Kicked from room");
+            }
+            if (verboseMode)
+            {
+                Debug.Log("HealthLib: Verbose | Checked Health");
+            }
 
         }
 
-        [ModdedGamemodeJoin]
-        public void OnJoin(string gamemode)
+        void addHealth(int healthadded)
         {
-            inRoom = true;
+            if (Health < 100)
+            {
+                Debug.Log("HealthLib: Action | Health Added: " + healthadded);
+                Health = Health + healthadded;
+            }
+            else
+            {
+                Debug.Log("HealthLib: Error | Already at Max Health!");
+            }
         }
 
-       
-        [ModdedGamemodeLeave]
-        public void OnLeave(string gamemode)
+        void removeHealth(int healthremoved)
         {
-            inRoom = false;
+            if (Health > 0)
+            {
+                Debug.Log("HealthLib: Action | Health Removed: " + healthremoved);
+                Health = Health - healthremoved;
+            }
+            else
+            {
+                Debug.Log("HealthLib: Error | Already at Min Health. Player should be dead");
+            }
         }
+
+        void setHealth(int healthSet)
+        {
+            Debug.Log("HealthLib: Action | Health Set:" + healthSet);
+            Health = healthSet;
+        }
+
     }
 }
