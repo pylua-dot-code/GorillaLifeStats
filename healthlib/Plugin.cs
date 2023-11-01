@@ -22,6 +22,7 @@ namespace healthlib
 
         void Start()
         {
+            HoneyLib.Events.Events.InfectionTagEvent += OnTag;
             Utilla.Events.GameInitialized += OnGameInitialized;
         }
 
@@ -47,11 +48,13 @@ namespace healthlib
         {
             Debug.Log("HealthLib: Credits | Thanks for using HealthLib - pylua.code");
         }
+
         void OnTag(object sender, InfectionTagEventArgs e)
         {
             if (e.taggedPlayer.IsLocal && e.taggingPlayer != null)
             {
-                removeHealth(5);
+                removeHealth(50);
+            
             }
         }
         void Update()
