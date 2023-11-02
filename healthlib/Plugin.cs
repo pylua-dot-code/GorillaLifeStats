@@ -23,7 +23,10 @@ namespace healthlib
             HoneyLib.Events.Events.InfectionTagEvent += OnTag;
             Utilla.Events.GameInitialized += OnGameInitialized;
         }
-
+        int getHealth()
+        {
+            return Health;
+        }
         void OnEnable()
         {
             HarmonyPatches.ApplyHarmonyPatches();
