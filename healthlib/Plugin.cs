@@ -23,6 +23,10 @@ namespace healthlib
             HoneyLib.Events.Events.InfectionTagEvent += OnTag;
             Utilla.Events.GameInitialized += OnGameInitialized;
         }
+        void setMaxHealth(int maxHealth) 
+        {
+            Health = maxHealth;
+        }
         int getHealth()
         {
             return Health;
