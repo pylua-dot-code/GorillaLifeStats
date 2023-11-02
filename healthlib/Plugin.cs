@@ -24,33 +24,21 @@ namespace healthlib
             Utilla.Events.GameInitialized += OnGameInitialized;
         }
         
-        int getHealth()
-        {
-            return Health;
-        }
+        int getHealth() => return Health;
 
-        void OnEnable()
-        {
-            HarmonyPatches.ApplyHarmonyPatches();
-        }
+        void OnEnable() => HarmonyPatches.ApplyHarmonyPatches();
+        void OnDisable() => HarmonyPatches.RemoveHarmonyPatches();
 
-        void OnDisable()
-        {
-            HarmonyPatches.RemoveHarmonyPatches();
-        }
-
+        // BepInEx provides a logger property in the BaseUnityPlugin
+        // doing this automatically adds the plugin name and also appropriately represents severity
+        // https://docs.bepinex.dev/articles/dev_guide/plugin_tutorial/3_logging.html
         void OnGameInitialized(object sender, EventArgs e)
-        {
-            Debug.Log("HealthLib: Credits | Thanks for using HealthLib - pylua.code");
-        }
+            Logger.LogInfo("Thanks for using HealthLib - pylua.code");
 
         void OnTag(object sender, InfectionTagEventArgs e)
         {
             if (e.taggedPlayer.IsLocal && e.taggingPlayer != null)
-            {
                 removeHealth(10);
-            
-            }
         }
 
         void Update()
@@ -58,7 +46,7 @@ namespace healthlib
             if (Health <= 0)
             {
                 Photon.Pun.PhotonNetwork.Disconnect();
-                Debug.Log("HealthLib: Action | Kicked from room");
+                Logger.LogInfo("Kicked from room");
             }
         }
 
@@ -66,42 +54,31 @@ namespace healthlib
         {
             if (Health < 100)
             {
-                Debug.Log("HealthLib: Action | Health Added: " + healthadded);
+                Logger.LogInfo($"Health added: {healthadded}");
                 Health = Health + healthadded;
             }
             else
-            {
-                Debug.Log("HealthLib: Error | Already at Max Health!");
-            }
+                Logger.LogWarning("Already at max health");
         }
 
         void removeHealth(int healthremoved)
         {
             if (Health > 0)
             {
-                Debug.Log("HealthLib: Action | Health Removed: " + healthremoved);
+                Logger.LogInfo($"Health removed: {healthremoved}");
                 Health = Health - healthremoved;
             }
             else
-            {
-                Debug.Log("HealthLib: Error | Already at Min Health. Player should be dead");
-            }
+                Logger.LogWarning("Already at min health, player should be dead");
         }
 
         void setHealth(int healthSet)
         {
-            Debug.Log("HealthLib: Action | Health Set:" + healthSet);
+            Debug.LogInfo($"Health set: {healthSet}");
             Health = healthSet;
         }
 
-        void OnJoin()
-        {
-            setHealth(100);
-        }
-
-        void OnLeave()
-        {
-            setHealth(100);
-        }
+        void OnJoin() => setHealth(100);
+        void OnLeave() => setHealth(100);
     }
 }
