@@ -27,6 +27,7 @@ namespace healthlib
         {
             return Health;
         }
+
         void OnEnable()
         {
             HarmonyPatches.ApplyHarmonyPatches();
