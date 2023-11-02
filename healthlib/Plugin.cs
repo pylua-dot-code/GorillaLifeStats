@@ -23,10 +23,7 @@ namespace healthlib
             HoneyLib.Events.Events.InfectionTagEvent += OnTag;
             Utilla.Events.GameInitialized += OnGameInitialized;
         }
-        void setBaseHealth(int baseHealth) 
-        {
-            Health = baseHealth;
-        }
+        
         int getHealth()
         {
             return Health;
