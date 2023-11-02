@@ -48,7 +48,7 @@ namespace healthlib
         {
             if (e.taggedPlayer.IsLocal && e.taggingPlayer != null)
             {
-                removeHealth(5);
+                removeHealth(10);
             
             }
         }
