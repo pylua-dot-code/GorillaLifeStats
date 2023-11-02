@@ -18,8 +18,6 @@ namespace healthlib
 
         bool inRoom;
 
-        bool verboseMode;
-
         void Start()
         {
             HoneyLib.Events.Events.InfectionTagEvent += OnTag;
@@ -29,14 +27,6 @@ namespace healthlib
         void OnEnable()
         {
             HarmonyPatches.ApplyHarmonyPatches();
-        }
-
-        void setVerbose(bool verbose)
-        {
-            if (verbose)
-            {
-                verboseMode = true;
-            }
         }
 
         void OnDisable()
@@ -53,22 +43,18 @@ namespace healthlib
         {
             if (e.taggedPlayer.IsLocal && e.taggingPlayer != null)
             {
-                removeHealth(50);
+                removeHealth(5);
             
             }
         }
+
         void Update()
         {
             if (Health <= 0)
             {
-                PhotonNetwork.Disconnect();
+                Photon.Pun.PhotonNetwork.Disconnect();
                 Debug.Log("HealthLib: Action | Kicked from room");
             }
-            if (verboseMode)
-            {
-                Debug.Log("HealthLib: Verbose | Checked Health");
-            }
-
         }
 
         void addHealth(int healthadded)
@@ -103,5 +89,14 @@ namespace healthlib
             Health = healthSet;
         }
 
+        void OnJoin()
+        {
+            setHealth(100);
+        }
+
+        void OnLeave()
+        {
+            setHealth(100);
+        }
     }
 }
