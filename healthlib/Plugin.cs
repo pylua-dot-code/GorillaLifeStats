@@ -15,6 +15,7 @@ namespace healthlib
     public class Plugin : BaseUnityPlugin
     {
         public int Health = 100;
+        public int Damage = 10;
 
         bool inRoom;
 
@@ -24,15 +25,26 @@ namespace healthlib
             Utilla.Events.GameInitialized += OnGameInitialized;
         }
         
-        int getHealth()
+        public int getHealth()
         {
             return Health;
+        }
+
+        public int getRemainingHealth()
+        {
+            return 100 - Health;
+        }
+
+        public void setDamage(int damage)
+        {
+            Damage = damage;
         }
 
         void OnEnable()
         {
             HarmonyPatches.ApplyHarmonyPatches();
         }
+
 
         void OnDisable()
         {
@@ -48,8 +60,7 @@ namespace healthlib
         {
             if (e.taggedPlayer.IsLocal && e.taggingPlayer != null)
             {
-                removeHealth(10);
-            
+                removeHealth(Damage);
             }
         }
 
@@ -62,44 +73,54 @@ namespace healthlib
             }
         }
 
-        void addHealth(int healthadded)
+        public void addHealth(int healthadded)
         {
-            if (Health < 100)
+            // we dont want it to make it go more than 100, right?
+            if (Health < 100 && Health + healthadded < 100)
             {
                 Debug.Log("HealthLib: Action | Health Added: " + healthadded);
-                Health = Health + healthadded;
+                Health += healthadded;
             }
             else
             {
-                Debug.Log("HealthLib: Error | Already at Max Health!");
+                if (Health < 100)
+                {
+                    addHealth(100 - (Health - healthadded));
+                }
+                Debug.Log("HealthLib: Error | Already at Max Health or something!");
             }
         }
 
-        void removeHealth(int healthremoved)
+        public void removeHealth(int healthremoved)
         {
-            if (Health > 0)
+            if (Health > 0 && Health - healthremoved > 0)
             {
                 Debug.Log("HealthLib: Action | Health Removed: " + healthremoved);
-                Health = Health - healthremoved;
+                Health -= healthremoved;
             }
             else
             {
-                Debug.Log("HealthLib: Error | Already at Min Health. Player should be dead");
+                if (Health > 0)
+                {
+                    removeHealth(100 - (Health - healthremoved));
+                }
+                Debug.Log("HealthLib: Error | Already at Min Health or something. Player should be dead if the players health is 0");
             }
         }
 
-        void setHealth(int healthSet)
+        public void setHealth(int healthSet)
         {
             Debug.Log("HealthLib: Action | Health Set:" + healthSet);
             Health = healthSet;
         }
 
-        void OnJoin()
+        // should be called by the mods when joined and left a room.
+        public void OnJoin()
         {
             setHealth(100);
         }
 
-        void OnLeave()
+        public void OnLeave()
         {
             setHealth(100);
         }
