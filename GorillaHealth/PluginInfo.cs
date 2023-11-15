@@ -1,12 +1,12 @@
-﻿namespace healthlib
+﻿namespace GorillaLifeStats
 {
     /// <summary>
     /// This class is used to provide information about your mod to BepInEx.
     /// </summary>
     internal class PluginInfo
     {
-        public const string GUID = "com.pyluadotcode.gorillatag.healthlib";
-        public const string Name = "healthlib";
+        public const string GUID = "com.pyluadotcode.gorillatag.gorillahealth";
+        public const string Name = "GorillaHealth";
         public const string Version = "1.0.0";
     }
 }

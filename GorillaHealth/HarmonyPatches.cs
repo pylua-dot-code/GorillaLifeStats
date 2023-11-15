@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace healthlib
+namespace GorillaLifeStats
 {
     /// <summary>
     /// This class handles applying harmony patches to the game.

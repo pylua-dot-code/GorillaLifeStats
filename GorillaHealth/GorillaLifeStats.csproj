@@ -26,9 +26,6 @@
     <Reference Include="Cinemachine">
       <HintPath>$(GameAssemblyPath)\Cinemachine.dll</HintPath>
     </Reference>
-    <Reference Include="HoneyLib">
-      <HintPath>..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\HoneyLib\HoneyLib.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Security">
       <HintPath>$(GameAssemblyPath)\Mono.Security.dll</HintPath>
     </Reference>
