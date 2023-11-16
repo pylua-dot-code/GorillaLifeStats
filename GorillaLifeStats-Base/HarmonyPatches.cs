@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace GorillaLifeStats
+namespace GLSB
 {
     /// <summary>
     /// This class handles applying harmony patches to the game.

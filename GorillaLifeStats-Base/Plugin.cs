@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using Utilla;
 
-namespace GorillaLifeStats
+namespace GLSB
 {
     [BepInDependency("org.legoandmars.gorillatag.utilla", "1.6.10")]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]

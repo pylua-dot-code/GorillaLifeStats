@@ -4,7 +4,7 @@ using UnityEngine;
 using Utilla;
 using GorillaLifeStats;
 using BepInEx.Configuration;
-namespace GorillaLifeStatsConfigurator
+namespace GLSC
 {
     [BepInDependency("org.legoandmars.gorillatag.utilla", "1.5.0")]
     [BepInDependency("com.pyluadotcode.gorillatag.gorillahealth", "1.0.0")]
