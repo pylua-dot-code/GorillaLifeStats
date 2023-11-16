@@ -10,10 +10,10 @@ namespace GorillaLifeStats
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
-        public int BaseHealth;
-        public int Health;
-        public int BaseStamina;
-        public int Stamina;
+        public int BaseHealth = 100;
+        public int Health = 100;
+        public int BaseStamina = 1000;
+        public int Stamina = 1000;
         bool inRoom;
 
         public void DamageManager(int Function,  int Value, bool GetHealth)
@@ -29,11 +29,6 @@ namespace GorillaLifeStats
             if (Function == 2)
             {
                 Health = Value;
-            }
-            if (Function == 3)
-            {
-                Health = Value;
-                BaseHealth = Health;
             }
             if (GetHealth)
             {
@@ -54,16 +49,12 @@ namespace GorillaLifeStats
             {
                 Stamina = Value;
             }
-            if (Function == 3)
-            {
-                Stamina = Value;
-                BaseStamina = Stamina;
-            }
             if (GetStamina)
             {
                 Logger.LogInfo("GorrilaLifeStats Stamina is " + Stamina);
             }
         }
+
         void Update()
         {
             if (Health > BaseHealth)
